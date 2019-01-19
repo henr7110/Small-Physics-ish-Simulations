@@ -68,12 +68,12 @@ for t in range(t_steps):
 #plot shit
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-ax.plot_surface(X, Y, beforephi, color='b')
+ax.plot_surface(np.array(X), np.array(Y), np.array(beforephi), color='b')
 plt.show()
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-ax.plot_surface(X, Y, phi, color='b')
+ax.plot_surface(np.array(X), np.array(Y), np.array(phi), color='b')
 plt.show()
 
 # plt.quiver(X,Y,u[0],u[1])

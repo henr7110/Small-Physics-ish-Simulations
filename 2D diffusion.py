@@ -48,7 +48,10 @@ class RandomWalker():
     def Draw(self,ax,color,linewidth,size):
         ax.plot(self.xlist,self.ylist,linestyle="-",linewidth=linewidth) #plot path
         ax.plot(self.x,self.y,"o",markersize=size)
-class CenterGrid():
+class DiffusionPlotter(RandomWalker):
+    def __init__(self,xlist,ylist):
+        self.xlist,self.ylist = xlist,ylist
+class NormalGrid():
     def __init__(self,N_walkers,size):
         """Initialize grid with N_walkers rdm walkers in center and size (x,y)"""
         self.lenx,self.leny = size[0],size[1]
@@ -109,10 +112,10 @@ class CenterGrid():
                 plt.title(f"Status after {i} runs of {N} walkers")
         ani = matplotlib.animation.FuncAnimation(fig, animate,frames=R-2,interval=0)
         plt.show()
-
-
-master = CenterGrid(100,(1,1))
-master.Run(2000)
-master.PlotEnds()
-master.PlotPaths(1e3,3e3)
-master.AnimateWalkers(1e3)
+class PlotterGrid(NormalGrid):
+    def __init__(self,inputs):
+        import numpy as np
+        """Initialize grid with N_walkers rdm walkers in center and size (x,y)"""
+        sample_bounds = [np.mean([np.abs(i[0][-1]),np.abs(i[0][-1])]) for i in inputs]
+        self.lenx,self.leny = max(sample_bounds),max(sample_bounds)
+        self.walkers = [DiffusionPlotter(i[0],i[1]) for i in inputs]
